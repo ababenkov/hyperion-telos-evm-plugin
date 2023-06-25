@@ -361,8 +361,8 @@ export default async function (fastify: FastifyInstance, opts: TelosEvmConfig) {
 
     async function emptyBlockFromDelta(blockDelta: any) {
 		const blockNumberHex = addHexPrefix(blockDelta['@global'].block_num.toString(16));
-		const timestamp = new Date(blockDelta['@timestamp']).getTime() / 1000;
-        const parentHash = addHexPrefix(blockDelta['@evmPrevBlockHash']);
+		const timestamp = Math.floor(new Date(blockDelta['@timestamp']).getTime() / 1000);
+                const parentHash = addHexPrefix(blockDelta['@evmPrevBlockHash']);
 		const blockHash = addHexPrefix(blockDelta["@evmBlockHash"]);
 		const extraData = addHexPrefix(blockDelta['@blockHash']);
 
@@ -485,7 +485,7 @@ export default async function (fastify: FastifyInstance, opts: TelosEvmConfig) {
 		}
 
         const block = await getBlockByNumber(blockNum);
-        const timestamp = new Date(block['@timestamp']).getTime() / 1000;
+        const timestamp = Math.floor(new Date(block['@timestamp']).getTime() / 1000);
         const gasUsedBlock = addHexPrefix(removeLeftZeros(new BN(block['gasUsed']).toString('hex')));
         const gasLimitBlock = addHexPrefix(removeLeftZeros(new BN(block['gasLimit']).toString('hex')));
         const extraData = addHexPrefix(block['@blockHash']);
