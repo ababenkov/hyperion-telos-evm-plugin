@@ -190,7 +190,15 @@ export default class WebsocketRPC {
     }
 
     handleHeadMessage(data) {
-        this.headSubscription.publish(data);
+        let resp = {
+           "jsonrpc": "2.0",
+           "method": "eth_subscription",
+           "params": {
+                "result": JSON.parse(data),
+                "subscription": NEW_HEADS_SUBSCRIPTION
+           }
+        };
+        this.headSubscription.publish(JSON.stringify(resp));
     }
 
 }
